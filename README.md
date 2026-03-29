@@ -16,3 +16,8 @@
 - Using the "circles" dataset from the scikit-learn library, I created data that visualizes two circles in a scatter plot.
 - Used a multi-layer, non-linear NN to separate the data to find how accurately the model determines if data points should be "blue" or "red".
 - The main goal of this project was to understand nn.ReLU and implement multiple layers into a model.
+## PyTorch_practice04
+- This project is designed to understand and building a CNN model.
+- Using torchvision datasets, the code uses and downloads FashionMNIST.
+- The project also encompasses a linear model to compare with the CNN for prefromance.
+- The main goal of this project was to understand CNN and image-to-tensor processing.
