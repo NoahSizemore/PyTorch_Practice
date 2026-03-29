@@ -294,7 +294,7 @@ def main():
                                     loss_fn=loss_fn, 
                                     accuracy_func=accuracy_func)
         
-        # recording answers from test through the dictionary (the dictionary is importnat for comparision)
+        # recording answers from test through the dictionary (can be used to help compare)
         test_loss = model01_results["model loss"]
         test_acc = model01_results["model acc"]
 
