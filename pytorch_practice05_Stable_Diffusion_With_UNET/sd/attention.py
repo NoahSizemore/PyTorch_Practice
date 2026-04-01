@@ -25,7 +25,7 @@ class SelfAttention(nn.Module):
         batch_size, seqeunce_length, d_embed = input_shape
 
         # intermediate shape used to split embed dim into (n_heads, d_head) for multi-head attention
-        intermin_shape = (batch_size, seqeunce_length, d_embed, self.d_head)
+        intermin_shape = (batch_size, seqeunce_length, self.n_heads, self.d_head)
 
         # convert batchsize, seq_len, dim to dim * 3 and chunk makes it 3 tensors with the original shape
         q, k, v = self.in_proj(x).chunk(3, dim=-1)
@@ -46,7 +46,7 @@ class SelfAttention(nn.Module):
             weight.masked_fill_(mask, -torch.inf)
 
         # scale dot products by sqrt(d_head) to prevent vanishing gradients from large values
-        weight /= mask.sqrt(self.d_head)
+        weight /= math.sqrt(self.d_head)
 
         # softmax over the last dim so each token's attention scores sum to 1
         weight = F.softmax(weight, dim=-1)
@@ -56,9 +56,48 @@ class SelfAttention(nn.Module):
         # output: batchsize, seq_len, number of heads, dim / number of heads
         output = output.transpose(1, 2)
         # merge all heads back together by reshaping to the original input shape
-        output = output.reshape(input)
+        output = output.reshape(input_shape)
 
         # final linear projection mixes information across heads
         output = self.out_proj(output)
 
         return output
+    
+class CrossAttention(nn.Module):
+    def __init__(self, n_heads: int, d_embd: int, d_cross: int, in_proj_bias=True, out_proj_bias=True):
+        super().__init__()
+        self.q_proj = nn.Linear(d_embd, d_embd, bias=in_proj_bias)
+        self.k_proj = nn.Linear(d_cross, d_embd, bias=in_proj_bias)        
+        self.v_proj = nn.Linear(d_cross, d_embd, bias=in_proj_bias)
+        self.out_proj = nn.Linear(d_embd, d_embd, bias=out_proj_bias)
+        self.n_heads = n_heads
+        self.d_head = d_embd // n_heads
+
+    def forward(self, x, y):
+        # x is latent, y is context
+        input_shape = x.shape
+        batch_size, sequence_length, d_embed = input_shape
+
+        interim_shape = (batch_size, -1, self.n_heads, self.d_head)
+
+        q = self.q_proj(x)
+        k = self.k_proj(y)
+        v = self.v_proj(y)
+
+        q = q.view(interim_shape).transpose(1, 2)
+        k = k.view(interim_shape).transpose(1, 2)
+        v = v.view(interim_shape).transpose(1, 2)
+
+        weight = q @ k.transpose(-1, -2)
+        weight /= math.sqrt(self.d_head)
+        weight = F.softmax(weight, dim=-1)
+
+        output = weight @ v
+        output = output.transpose(1, 2).contiguous()
+        output = output.view(input_shape)
+        output = self.out_proj(output)
+
+        return output
+
+
+        

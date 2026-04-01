@@ -15,17 +15,17 @@ class VAE_RisidualBlock(nn.Module):
         # conv layer 1: preserve spatial size with padding=1
         self.conv_1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1)
         # normalize data for better training
-        self.groupnorm_2 = nn.GroupNorm(32, in_channels)
+        self.groupnorm_2 = nn.GroupNorm(32, out_channels)
         # conv layer 2: preserve spatial size with padding=1
-        self.conv_2 = nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1)
+        self.conv_2 = nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1)
 
         # making x and residue equal so they can be added together at the end of forward()
         # if channels already match, identity pass-through is enough
         if in_channels == out_channels:
-            self.risdual_layer = nn.Identity()
+            self.residual_layer = nn.Identity()
         else:
             # 1x1 conv projects input channels to match output channels without changing spatial size
-            self.risdual_layer = nn.Conv2d(in_channels, out_channels, kernel_size=1, padding=0)
+            self.residual_layer = nn.Conv2d(in_channels, out_channels, kernel_size=1, padding=0)
 
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -33,7 +33,7 @@ class VAE_RisidualBlock(nn.Module):
         residue = x
 
         # norm -> activate -> conv -> norm -> activate -> conv, then add residue connection
-        return self.conv_2(F.silu(self.groupnorm_2(self.conv_1(F.silu(self.groupnorm_1(x)))))) + self.risdual_layer(residue)
+        return self.conv_2(F.silu(self.groupnorm_2(self.conv_1(F.silu(self.groupnorm_1(x)))))) + self.residual_layer(residue)
 
 # the attention block
 class VAE_AttentionBlock(nn.Module):
@@ -45,7 +45,7 @@ class VAE_AttentionBlock(nn.Module):
         # single-head self-attention over all spatial positions
         self.attention = SelfAttention(1, channels)
 
-    def forwaard(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         # x: is batchsize, features, height, width
         residue = x
 

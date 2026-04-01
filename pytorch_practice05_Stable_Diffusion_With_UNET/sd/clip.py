@@ -13,13 +13,13 @@ class CLIPEmbedding(nn.Module):
         # define the embedding (what is the number of embeddings)
         self.token_embedding = nn.Embedding(n_vocab, n_embd)
         # defining positional encoding (uses learned parameters during training)
-        self.posistion_embedding = nn.Parameter(torch.zeros(n_tokens, n_embd))
+        self.position_embedding = nn.Parameter(torch.zeros(n_tokens, n_embd))
 
     def forward(self, tokens):
         # converting batch size, seq_len to batch size, seq_len, and dim
         x = self.token_embedding(tokens)
         # add postional encodings to each token
-        x += self.posistion_embedding
+        x += self.position_embedding
         # return x
         return x
     
@@ -45,12 +45,12 @@ class CLIPLayer(nn.Module):
         # feed forward layer
         residue = x
         x = self.layernorm_2(x)
-        self.linear_1(x)
+        x = self.linear_1(x)
 
         # this is the quick GELU activation function, similar to ReLU
         x = x * torch.sigmoid(1.702 * x)
 
-        self.linear_2(x)
+        x = self.linear_2(x)
         x += residue
         # return x
         return x
@@ -59,8 +59,8 @@ class CLIP(nn.Module):
     def __init__(self):
         super().__init__()
         # convert tokens (created by text to numbers) into embeddings (which will be a vector)
-        self.embedding = CLIPEmbedding(48408, 768, 77) # in order: vocab size, embedding size, padding
-        self.layers = nn.Module([
+        self.embedding = CLIPEmbedding(49408, 768, 77) # in order: vocab size, embedding size, padding
+        self.layers = nn.ModuleList([
             # creating 12 CLIP layers
             CLIPLayer(12, 768) for i in range(12)
         ])
