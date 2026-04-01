@@ -7,7 +7,7 @@ from torch.nn import functional as F
 from attention import SelfAttention
 
 # the ridual block to use in the encoder
-class VAE_RisidualBlock(nn.Module):
+class VAE_ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels):
         super().__init__()
         # normalize data for better training 
@@ -84,7 +84,7 @@ class VAE_Decoder(nn.Sequential):
                 kernel_size=3,
                 padding=1
             ),
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
@@ -93,19 +93,19 @@ class VAE_Decoder(nn.Sequential):
                 512
             ),
             # series of residual blocks at 512 channels to refine features before upsampling
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
@@ -121,15 +121,15 @@ class VAE_Decoder(nn.Sequential):
                 padding=1
             ),
             # residual blocks to refine features at this resolution
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
@@ -145,15 +145,15 @@ class VAE_Decoder(nn.Sequential):
                 padding=1
             ),
             # reducing features
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 256
             ),            
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 256,
                 256
             ),  
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 256,
                 256
             ),  
@@ -169,15 +169,15 @@ class VAE_Decoder(nn.Sequential):
                 padding=1
             ),
             # reducing features
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 256,
                 128
             ),            
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 128,
                 128
             ),  
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 128,
                 128
             ), 

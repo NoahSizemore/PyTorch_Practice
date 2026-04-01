@@ -18,7 +18,7 @@ class SelfAttention(nn.Module):
         # each head works on a slice of the embedding: d_embed split evenly across heads
         self. d_head = d_embed // n_heads
 
-    def forward(self, x: torch.Tenosr, casual_mask=False) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, causal_mask=False) -> torch.Tensor:
         # x: batchsize, seq_len, d_embed
         input_shape = x.shape
 
@@ -39,7 +39,7 @@ class SelfAttention(nn.Module):
         weight = q @ k.transpose(-1, -2)
 
         # applying the mask if desired to have two tokens to relate to each other
-        if casual_mask:
+        if causal_mask:
             # mask where the upper triangle (above the diagonal) is made up of ones
             mask = torch.ones_like(weight, dtype=torch.bool).triu(1)
             # every other value in the matrix is - infinity
