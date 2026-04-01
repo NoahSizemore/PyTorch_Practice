@@ -140,6 +140,3 @@ class DDPMSampler:
         noisy_samples = (sqrt_alpha_prod* original_samples) + (sqrt_alpha_prod_one_minus) * noise
 
         return noisy_samples
-
-
-

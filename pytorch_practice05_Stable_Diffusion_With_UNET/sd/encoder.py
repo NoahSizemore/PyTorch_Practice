@@ -4,7 +4,7 @@
 import torch
 from torch import nn
 from torch.nn import functional as F
-from decoder import VAE_AttentionBlock, VAE_RisidualBlock
+from decoder import VAE_AttentionBlock, VAE_ResidualBlock
 
 # the goal is to reduce the amount of information present in the image and increase the amount of features per pixel
 class VAE_Encoder(nn.Sequential):
@@ -18,12 +18,12 @@ class VAE_Encoder(nn.Sequential):
                 padding=1
             ),
             # refine features at 128 channels before downsampling
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 128,
                 128
             ),
             # enables the model to learn complex transformations through risiduals
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 128,
                 128
             ),
@@ -36,12 +36,12 @@ class VAE_Encoder(nn.Sequential):
                 padding=0
             ),
             # increase features from 128 to 256 as spatial resolution decreases
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 128,
                 256
             ),
             # refine features at 256 channels before next downsample
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 256,
                 256
             ),
@@ -54,12 +54,12 @@ class VAE_Encoder(nn.Sequential):
                 padding=0
             ),
             # increase features from 256 to 512 as spatial resolution decreases
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 256,
                 512
             ),
             # refine features at 512 channels before next downsample
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
@@ -72,15 +72,15 @@ class VAE_Encoder(nn.Sequential):
                 padding=0
             ),
             # refine features at full depth before attention
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
@@ -89,7 +89,7 @@ class VAE_Encoder(nn.Sequential):
                 512
             ),
             # final residual refinement after attention
-            VAE_RisidualBlock(
+            VAE_ResidualBlock(
                 512,
                 512
             ),
