@@ -29,3 +29,5 @@
 - This project needs the files from [this Hugging Face library](https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/tree/main/tokenizer) to run the code, assign it to a "data" folder.
 - This project is my own code following the guide from [this YouTube video](https://www.youtube.com/watch?v=ZBKpAp_6TGI). The creator also used other repositiories for their code, see [here](https://github.com/hkproj/pytorch-stable-diffusion) for more.
 - The main goal of this project was to test my limits and create something beyond the scope of my knowledge as well as take the time to learn about diffusion and U-Nets.
+- Personal video presentation on delving into some aspects present in the model (more of a general overview), looking at the overall process of the model, and overviewing some of the code as well as comparing its outputs can be found [here.](https://youtu.be/hDsl1UvYNRU)
+- *Note: The video is likely to be replaced in the future with one containg a better overall presentation. When replaced this text will disappear as well* 
