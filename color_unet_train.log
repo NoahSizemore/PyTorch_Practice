@@ -1,0 +1,88 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuLair/1.0
+
+=== DIAGNOSTIC ===
+Fri Apr 17 14:39:07 CDT 2026
+[HPC NODE]
+/scratch/user/[USERNAME]/.conda/envs/mytorch/bin/python
+exe: /scratch/user/[USERNAME]/.conda/envs/mytorch/bin/python
+torch: 2.5.1 | cuda: True
+torchvision: 0.20.1
+
+===   RUNNING  ===
+/scratch/user/[USERNAME]/.conda/envs/mytorch/lib/python3.12/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 2 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+=== TRAINING ===
+Device: cuda
+Epoch(s): 20
+Learning rate: 0.0001
+Batch size: 256
+Outputs will save to: .//scratch/user/[USERNAME]/[PROJECT]/phase1/outputs/colorization_unet_outputs/
+
+Epoch [1/20] | Batch 0/196 | Loss: 0.2210
+Epoch [1/20] | Batch 100/196 | Loss: 0.0290
+--- Epoch 1 Complete | Average Loss: 0.0420 ---
+Epoch [2/20] | Batch 0/196 | Loss: 0.0219
+Epoch [2/20] | Batch 100/196 | Loss: 0.0183
+--- Epoch 2 Complete | Average Loss: 0.0176 ---
+Epoch [3/20] | Batch 0/196 | Loss: 0.0140
+Epoch [3/20] | Batch 100/196 | Loss: 0.0167
+--- Epoch 3 Complete | Average Loss: 0.0154 ---
+Epoch [4/20] | Batch 0/196 | Loss: 0.0190
+Epoch [4/20] | Batch 100/196 | Loss: 0.0128
+--- Epoch 4 Complete | Average Loss: 0.0144 ---
+Epoch [5/20] | Batch 0/196 | Loss: 0.0115
+Epoch [5/20] | Batch 100/196 | Loss: 0.0116
+--- Epoch 5 Complete | Average Loss: 0.0131 ---
+Epoch [6/20] | Batch 0/196 | Loss: 0.0129
+Epoch [6/20] | Batch 100/196 | Loss: 0.0132
+--- Epoch 6 Complete | Average Loss: 0.0130 ---
+Epoch [7/20] | Batch 0/196 | Loss: 0.0122
+Epoch [7/20] | Batch 100/196 | Loss: 0.0156
+--- Epoch 7 Complete | Average Loss: 0.0129 ---
+Epoch [8/20] | Batch 0/196 | Loss: 0.0149
+Epoch [8/20] | Batch 100/196 | Loss: 0.0097
+--- Epoch 8 Complete | Average Loss: 0.0118 ---
+Epoch [9/20] | Batch 0/196 | Loss: 0.0141
+Epoch [9/20] | Batch 100/196 | Loss: 0.0112
+--- Epoch 9 Complete | Average Loss: 0.0121 ---
+Epoch [10/20] | Batch 0/196 | Loss: 0.0115
+Epoch [10/20] | Batch 100/196 | Loss: 0.0095
+--- Epoch 10 Complete | Average Loss: 0.0118 ---
+Epoch [11/20] | Batch 0/196 | Loss: 0.0123
+Epoch [11/20] | Batch 100/196 | Loss: 0.0160
+--- Epoch 11 Complete | Average Loss: 0.0112 ---
+Epoch [12/20] | Batch 0/196 | Loss: 0.0099
+Epoch [12/20] | Batch 100/196 | Loss: 0.0096
+--- Epoch 12 Complete | Average Loss: 0.0114 ---
+Epoch [13/20] | Batch 0/196 | Loss: 0.0085
+Epoch [13/20] | Batch 100/196 | Loss: 0.0101
+--- Epoch 13 Complete | Average Loss: 0.0109 ---
+Epoch [14/20] | Batch 0/196 | Loss: 0.0139
+Epoch [14/20] | Batch 100/196 | Loss: 0.0178
+--- Epoch 14 Complete | Average Loss: 0.0113 ---
+Epoch [15/20] | Batch 0/196 | Loss: 0.0135
+Epoch [15/20] | Batch 100/196 | Loss: 0.0094
+--- Epoch 15 Complete | Average Loss: 0.0107 ---
+Epoch [16/20] | Batch 0/196 | Loss: 0.0114
+Epoch [16/20] | Batch 100/196 | Loss: 0.0099
+--- Epoch 16 Complete | Average Loss: 0.0106 ---
+Epoch [17/20] | Batch 0/196 | Loss: 0.0080
+Epoch [17/20] | Batch 100/196 | Loss: 0.0099
+--- Epoch 17 Complete | Average Loss: 0.0103 ---
+Epoch [18/20] | Batch 0/196 | Loss: 0.0094
+Epoch [18/20] | Batch 100/196 | Loss: 0.0108
+--- Epoch 18 Complete | Average Loss: 0.0104 ---
+Epoch [19/20] | Batch 0/196 | Loss: 0.0154
+Epoch [19/20] | Batch 100/196 | Loss: 0.0081
+--- Epoch 19 Complete | Average Loss: 0.0107 ---
+Epoch [20/20] | Batch 0/196 | Loss: 0.0101
+Epoch [20/20] | Batch 100/196 | Loss: 0.0099
+--- Epoch 20 Complete | Average Loss: 0.0103 ---
+
+=== TRAINING FINISHED ===
+
+===    DONE    ===
+Fri Apr 17 14:44:04 CDT 2026
