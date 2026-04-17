@@ -31,3 +31,8 @@
 - The main goal of this project was to test my limits and create something beyond the scope of my knowledge as well as take the time to learn about diffusion and U-Nets.
 - Personal video presentation on delving into some aspects present in the model (more of a general overview), looking at the overall process of the model, and overviewing some of the code as well as comparing its outputs can be found [here.](https://youtu.be/hDsl1UvYNRU)
 - *Note: The video is likely to be replaced in the future with one containg a better overall presentation. When replaced this text will disappear as well* 
+## PyTorch_practice06
+- This project is designed to be a reinforcement of knowledge and implementation for U-Net models.
+- The project is in two parts: The U-Net and the training.
+- The results from training the model are logged in the "color_unet_train.log"
+- The goal of this poject was to ultimately understand U-Nets further and train a model on a HPC.
