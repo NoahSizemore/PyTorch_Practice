@@ -11,8 +11,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision.utils import save_image
-from color_UNET import UNET # for HPC
-#from pytorch_pracitce06_unet import UNET # for VS
+from pytorch_pracitce06_unet import UNET
 from colorization import ColorizationDataset, get_colorization_dataloaders
 
 # Setup device (uses GPU if available)
