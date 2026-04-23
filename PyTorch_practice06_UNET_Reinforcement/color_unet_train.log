@@ -1,0 +1,107 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuLair/1.0
+
+=== DIAGNOSTIC ===
+Thu Apr 23 15:27:23 CDT 2026
+[HPC NODE]
+/scratch/user/[USER]/.conda/envs/mytorch/bin/python
+exe: /scratch/user/[USER]/.conda/envs/mytorch/bin/python
+torch: 2.5.1 | cuda: True
+torchvision: 0.20.1
+
+===   RUNNING  ===
+Files already downloaded and verified
+Files already downloaded and verified
+=======================================================
+=== STARTING TRAINING ===
+=======================================================
+Device: cuda
+Epoch(s): 10
+Learning rate: 0.0001
+Batch size: 256
+Outputs will save to: .//scratch/user/[USER]/[PROJECT]/phase1/outputs/colorization_unet_outputs/
+
+=======================================================
+
+=== Sanity checks: L shape: torch.Size([256, 1, 32, 32]) | ab shape: torch.Size([256, 2, 32, 32]) ===
+
+=======================================================
+Epoch [1/10] | Batch 0/195 | Loss: 0.1039
+Epoch [1/10] | Batch 64/195 | Loss: 0.0351
+Epoch [1/10] | Batch 128/195 | Loss: 0.0330
+Epoch [1/10] | Batch 192/195 | Loss: 0.0345
+TRAINING --- Epoch 01 Complete | Average Loss: 0.0391 ---
+VALIDATION --- Epoch 01 Complete | Average Loss: 0.0333 | PSNR: 26.0454 ---
+=======================================================
+Epoch [2/10] | Batch 0/195 | Loss: 0.0339
+Epoch [2/10] | Batch 64/195 | Loss: 0.0325
+Epoch [2/10] | Batch 128/195 | Loss: 0.0325
+Epoch [2/10] | Batch 192/195 | Loss: 0.0337
+TRAINING --- Epoch 02 Complete | Average Loss: 0.0329 ---
+VALIDATION --- Epoch 02 Complete | Average Loss: 0.0325 | PSNR: 26.2124 ---
+=======================================================
+Epoch [3/10] | Batch 0/195 | Loss: 0.0336
+Epoch [3/10] | Batch 64/195 | Loss: 0.0312
+Epoch [3/10] | Batch 128/195 | Loss: 0.0323
+Epoch [3/10] | Batch 192/195 | Loss: 0.0343
+TRAINING --- Epoch 03 Complete | Average Loss: 0.0324 ---
+VALIDATION --- Epoch 03 Complete | Average Loss: 0.0324 | PSNR: 26.2163 ---
+=======================================================
+Epoch [4/10] | Batch 0/195 | Loss: 0.0315
+Epoch [4/10] | Batch 64/195 | Loss: 0.0330
+Epoch [4/10] | Batch 128/195 | Loss: 0.0322
+Epoch [4/10] | Batch 192/195 | Loss: 0.0314
+TRAINING --- Epoch 04 Complete | Average Loss: 0.0320 ---
+VALIDATION --- Epoch 04 Complete | Average Loss: 0.0321 | PSNR: 26.3089 ---
+=======================================================
+Epoch [5/10] | Batch 0/195 | Loss: 0.0330
+Epoch [5/10] | Batch 64/195 | Loss: 0.0305
+Epoch [5/10] | Batch 128/195 | Loss: 0.0319
+Epoch [5/10] | Batch 192/195 | Loss: 0.0313
+TRAINING --- Epoch 05 Complete | Average Loss: 0.0318 ---
+VALIDATION --- Epoch 05 Complete | Average Loss: 0.0322 | PSNR: 26.3644 ---
+=======================================================
+Epoch [6/10] | Batch 0/195 | Loss: 0.0317
+Epoch [6/10] | Batch 64/195 | Loss: 0.0331
+Epoch [6/10] | Batch 128/195 | Loss: 0.0324
+Epoch [6/10] | Batch 192/195 | Loss: 0.0330
+TRAINING --- Epoch 06 Complete | Average Loss: 0.0315 ---
+VALIDATION --- Epoch 06 Complete | Average Loss: 0.0322 | PSNR: 26.1557 ---
+=======================================================
+Epoch [7/10] | Batch 0/195 | Loss: 0.0326
+Epoch [7/10] | Batch 64/195 | Loss: 0.0338
+Epoch [7/10] | Batch 128/195 | Loss: 0.0315
+Epoch [7/10] | Batch 192/195 | Loss: 0.0325
+TRAINING --- Epoch 07 Complete | Average Loss: 0.0313 ---
+VALIDATION --- Epoch 07 Complete | Average Loss: 0.0315 | PSNR: 26.4764 ---
+=======================================================
+Epoch [8/10] | Batch 0/195 | Loss: 0.0304
+Epoch [8/10] | Batch 64/195 | Loss: 0.0318
+Epoch [8/10] | Batch 128/195 | Loss: 0.0303
+Epoch [8/10] | Batch 192/195 | Loss: 0.0290
+TRAINING --- Epoch 08 Complete | Average Loss: 0.0310 ---
+VALIDATION --- Epoch 08 Complete | Average Loss: 0.0319 | PSNR: 26.3671 ---
+=======================================================
+Epoch [9/10] | Batch 0/195 | Loss: 0.0296
+Epoch [9/10] | Batch 64/195 | Loss: 0.0323
+Epoch [9/10] | Batch 128/195 | Loss: 0.0314
+Epoch [9/10] | Batch 192/195 | Loss: 0.0310
+TRAINING --- Epoch 09 Complete | Average Loss: 0.0307 ---
+VALIDATION --- Epoch 09 Complete | Average Loss: 0.0321 | PSNR: 26.4444 ---
+=======================================================
+Epoch [10/10] | Batch 0/195 | Loss: 0.0342
+Epoch [10/10] | Batch 64/195 | Loss: 0.0314
+Epoch [10/10] | Batch 128/195 | Loss: 0.0282
+Epoch [10/10] | Batch 192/195 | Loss: 0.0305
+TRAINING --- Epoch 10 Complete | Average Loss: 0.0303 ---
+VALIDATION --- Epoch 10 Complete | Average Loss: 0.0318 | PSNR: 26.3487 ---
+=======================================================
+
+=== TRAINING PIPELINE FINISHED ===
+
+=======================================================
+
+===    DONE    ===
+Thu Apr 23 15:31:09 CDT 2026
