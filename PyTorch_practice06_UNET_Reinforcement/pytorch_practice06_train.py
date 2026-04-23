@@ -1,7 +1,7 @@
 """
 - This is a program created by Noah Sizemore
 
-- This training pipelines is for the UNET model using colorization.py (colorization.py is hidden and will not be posted onto GitHub directly)
+- This training pipelines is for the UNET model using colorization.py
 - This is to also reinforce the training loop creation process as an addition to building a U-Net
 """
 
@@ -11,7 +11,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision.utils import save_image
-from pytorch_pracitce06_unet import UNET
+from color_UNET import UNET # for HPC
+#from pytorch_pracitce06_unet import UNET # for VS
 from colorization import ColorizationDataset, get_colorization_dataloaders
 
 # Setup device (uses GPU if available)
@@ -24,6 +25,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 # =====     Hyperparameters     =====
 
 # Lock the random seed for reproducibility
+print_epoch = 1
 SEED = 42
 
 torch.manual_seed(SEED)
@@ -31,7 +33,7 @@ np.random.seed(SEED)
 if torch.cuda.is_available():
     torch.cuda.manual_seed(SEED)
 
-EPOCHS = 100
+EPOCHS = 10
 LEARNING_RATE = 1e-4
 BATCH_SIZE = 256
 
@@ -50,9 +52,7 @@ def save_image_grid(l_batch, ab_batch, num, filepath):
     # saving four images per row
     save_image(batch, filepath, nrow=num)
 
-
 # ===== Data Loading =====
-
 
 # load the CIFAR10 training dataset
 trainset = ''
@@ -72,13 +72,14 @@ ab_channels = ab_channels.to(device)
 
 # creating ground truth images
 for j in range(4):
-    save_image_grid(l_channel, ab_channels, 1, f"{OUTPUT_DIR}/{j:02d}_ground_truth.png")
+    save_image_grid(l_channel, ab_channels, 4, f"{OUTPUT_DIR}/{j:02d}_ground_truth.png")
 
 # Initialize the model (1 in, 2 out for ab image reconstruction)
 model = UNET(in_channels=1, out_channels=2).to(device)
 
 # Define loss function (L1Loss/MAE) and the optimizer (Adam)
 criterion = nn.L1Loss()
+criterion2 = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
 # --------------------------
@@ -90,7 +91,7 @@ print(f"=== STARTING TRAINING ===")
 print("=" * 55)
 print(f"Device: {device}\nEpoch(s): {EPOCHS}\nLearning rate: {LEARNING_RATE}\nBatch size: {BATCH_SIZE}")
 print(f"Outputs will save to: ./{OUTPUT_DIR}/\n")
-print("=" * 55 + "\n")
+print("=" * 55)
 
 # Main Epoch Loop
 for epoch in range(EPOCHS):
@@ -98,6 +99,8 @@ for epoch in range(EPOCHS):
     model.train()
     epoch_loss = 0.0
     testing_loss = 0.0
+    psnr_sum = 0.0
+    psnr_count = 0.0
 
     # Loop through the batches of images
     for batch_id, (l_batch, ab_batch) in enumerate(trainloader):
@@ -105,8 +108,8 @@ for epoch in range(EPOCHS):
         l_batch = l_batch.to(device)
         ab_batch = ab_batch.to(device)
         if epoch == 0 and batch_id == 0:
-            print(f"\n=== Sanity checks: L shape: {l_batch.shape} | ab shape: {ab_batch.shape} ===")
-
+            print(f"\n=== Sanity checks: L shape: {l_batch.shape} | ab shape: {ab_batch.shape} ===\n")
+            print("=" * 55)
         
         # 1. Clear gradients from the previous step
         optimizer.zero_grad()
@@ -131,8 +134,9 @@ for epoch in range(EPOCHS):
             print(f"Epoch [{epoch+1}/{EPOCHS}] | Batch {batch_id}/{len(trainloader)} | Loss: {loss.item():.4f}")
 
     # Epoch summary 
-    training_average_loss = epoch_loss / len(trainloader)
-    print(f"TRAINING --- Epoch {epoch+1} Complete | Average Loss: {training_average_loss:.4f} ---")
+    if epoch % print_epoch == 0:
+        training_average_loss = epoch_loss / len(trainloader)
+        print(f"TRAINING --- Epoch {epoch+1:02d} Complete | Average Loss: {training_average_loss:.4f} ---")
 
     # --------------------------
     # ====    EVALUATION    ====
@@ -150,26 +154,44 @@ for epoch in range(EPOCHS):
             ab_batch = ab_batch.to(device)
 
             # predicting ab values
+            # predicting ab values
             predicted_ab = model(l_batch)
-            # calculating the loss
+            
+            # calculating the L1 loss for tracking
             model_loss = criterion(predicted_ab, ab_batch)
-            # Keeping track of total loss
             testing_loss += model_loss.item()
-
+            
+            # Getting MSE using your pre-defined MSELoss
+            mse = criterion2(predicted_ab, ab_batch)
+            
+            # Calculating PSNR with safegaurd to prevent division by zero
+            if mse.item() > 0:
+                psnr = 10 * torch.log10(1.0 / mse).item()
+            else:
+                psnr = 100.0 
+            
+            # PSNR sum
+            psnr_sum += psnr
+            # total PSNR count for mean
+            psnr_count += 1
+            
         # testing summary
         testing_average_loss = testing_loss / len(testloader)
-        print(f"VALIDATION --- Epoch {epoch+1:02d} Complete | Average Loss: {testing_average_loss:.4f} ---")
-        print("=" * 55)
+        # getting the mean for PSNR
+        PSNR_mean = psnr_sum / psnr_count
+
+        if epoch % print_epoch == 0:
+            print(f"VALIDATION --- Epoch {epoch+1:02d} Complete | Average Loss: {testing_average_loss:.4f} | PSNR: {PSNR_mean:.4f} ---")
+            print("=" * 55)
 
         # running fresh model to compare images
         anchor_prediction = model(l_channel)
         # reconstruct final images
-        save_image_grid(l_channel, anchor_prediction, 4, f"{OUTPUT_DIR}/epoch_{epoch+1:02d}_output.png")
-
+        if epoch % print_epoch == 0:
+            save_image_grid(l_channel, anchor_prediction, 4, f"{OUTPUT_DIR}/epoch_{epoch+1:02d}_output.png")
 
     # Save the model weights (overwrites previous epoch to save space)
     torch.save(model.state_dict(), f"{OUTPUT_DIR}/unet_model.pth")
 
-print("=" * 55)
-print("\n=== TRAINING PIPELINE FINISHED ===")
+print("\n=== TRAINING PIPELINE FINISHED ===\n")
 print("=" * 55)
