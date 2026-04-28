@@ -72,3 +72,36 @@ After training for 50 epochs, results are fairly similar even after the changes.
 
 ---
 
+April 28, 2026
+
+Trying a different learning rate with a smaller batch size: LR = 2e-4, Batch size = 128
+| Epoch #  | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
+| -------- | -------- | -------- | -------- | -------- | -------- |
+| 2        | 0.0324   | 0.0324   | 22.5763  | 0.9344   | 0.2126   |
+| 4        | 0.0317   | 0.0317   | 22.7054  | 0.9362   | 0.2036   |
+| 6        | 0.0311   | 0.0313   | 22.8783  | 0.9371   | 0.1979   |
+| **9**        | **0.0301**   | **0.0308**   | **23.0207**  | **0.9392**   | **0.1940**   |
+| 11       | 0.0292   | 0.0307   | 23.0571  | 0.9392   | 0.1908   |
+
+New hyperparameters preformed better, and earlier, than previous parameters, showing better improvments. Epoch 10 and 11 were the first to show signs of overfitting.
+
+New table comparing parameters
+| Hyperparameters | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
+| -------- | -------- | -------- | -------- | -------- | -------- |
+| LR = 2e-4, BS = 128, seed = 42| 0.0311   | 0.0313   | 22.8783  | 0.9371   | 0.1979   |
+| LR - 1e-3, BS = 512, seed = 42| 0.0317   | 0.0322   | 22.6270  | 0.9358   | 0.2085   |
+| LR = 1e-3, BS = 256, seed = 42| 0.0314   | 0.0314   | 22.8367  | 0.9374   | 0.2002   |
+| LR = 2e-4, BS = 128, seed = 60| 0.0308   | 0.0310   | 22.9205  | 0.9386   | 0.1958   |
+| LR - 1e-3, BS = 512, seed = 60| 0.0317   | 0.0321   | 22.6479  | 0.9372   | 0.2063   |
+| LR = 1e-3, BS = 256, seed = 60| 0.0314   | 0.0315   | 22.7782  | 0.9379   | 0.2029   |
+
+Ironically, the previous testing with the increased batch size underpreformed compared to the lower batch size. Luckily, the new hyperparameters still were better than both previous tests across multiple seeds. This is an overall positive for the testing.
+
+Things that I want to potentially add in the future to improve score: Add a perceptual loss term, switch BatchNorm to GroupNorm (or InstanceNorm), and add data augmentation in ColorizationDataset
+
+---
+
+
+
+
+
