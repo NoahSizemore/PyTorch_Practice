@@ -105,7 +105,8 @@ April 30, 2026
 
 Testing U-Net using GroupNorm with inplace of BatchNorm
 - This test is using LR = 2e-4, BS = 128, seed = 42, epoch = 11
-| Number of groups | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
+  
+| Num of groups | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
 | -------- | -------- | -------- | -------- | -------- | -------- |
 | BatchNorm| 0.0292   | 0.0307   | 23.0571  | 0.9392   | 0.1908   |
 | 8        | 0.0309   | 0.0311   | 22.9018  | 0.9381   | 0.1994   |
@@ -114,7 +115,8 @@ Testing U-Net using GroupNorm with inplace of BatchNorm
 
 Testing GroupNorm 8 and 16 for longer epochs
 - This test is using LR = 2e-4, BS = 128, seed = 42, epoch = 24
-| Number of groups | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
+  
+| Num of groups | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
 | -------- | -------- | -------- | -------- | -------- | -------- |
 | 16 @ 11     | 0.0308   | 0.0310   | 22.9320  | 0.9383   | 0.1982   |
 | 16 @ 15     | 0.0304   | 0.0310   | 22.9367  | 0.9388   | 0.1959   |
@@ -129,7 +131,7 @@ Testing GroupNorm 8 and 16 for longer epochs
 
 This testing has shown that the changes made to a GroupNorm with grouping "16" preformed almost identically to the BatchNorm after more training. This is a twosided situation: The first side, the longer training suggest the model is learning more, meaning that the GroupNorm is learning deeper than the BatchNorm. The second side, the BatchNorm got similar results, much quicker, eight epochs faster, meaning that the model uses less time and energy to produce the similar results.
 
-From these findings, I will initally move forward with BatchNorm for testing, and adapat GroupNorm after finalize BatchNorm model is complete.
+From these findings, I will initally move forward with BatchNorm for testing, and adapt GroupNorm after finalize BatchNorm model is complete.
 
 Adding perceptual loss
 Changes: Changed sigmoid in U-Net to Tanh for better output matching for LPIPS, added perceptual loss to training and adapted ab values to use Tanh instead of sigmoid where needed.
