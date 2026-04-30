@@ -101,7 +101,43 @@ Things that I want to potentially add in the future to improve score: Add a perc
 
 ---
 
+April 30, 2026
 
+Testing U-Net using GroupNorm with inplace of BatchNorm
+- This test is using LR = 2e-4, BS = 128, seed = 42, epoch = 11
+| Number of groups | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
+| -------- | -------- | -------- | -------- | -------- | -------- |
+| BatchNorm| 0.0292   | 0.0307   | 23.0571  | 0.9392   | 0.1908   |
+| 8        | 0.0309   | 0.0311   | 22.9018  | 0.9381   | 0.1994   |
+| 16       | 0.0308   | 0.0310   | 22.9320  | 0.9383   | 0.1982   |
+| 32       | 0.0306   | 0.0310   | 22.9528  | 0.9382   | 0.1982   |
+
+Testing GroupNorm 8 and 16 for longer epochs
+- This test is using LR = 2e-4, BS = 128, seed = 42, epoch = 24
+| Number of groups | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
+| -------- | -------- | -------- | -------- | -------- | -------- |
+| 16 @ 11     | 0.0308   | 0.0310   | 22.9320  | 0.9383   | 0.1982   |
+| 16 @ 15     | 0.0304   | 0.0310   | 22.9367  | 0.9388   | 0.1959   |
+| **16 @ 17**     | **0.0300**   | **0.0308**   | **22.9822**  | **0.9388**   | **0.1937**   |
+| 16 @ 20     | 0.0293   | 0.0308   | 22.9445  | 0.9393   | 0.1981   |
+| 16 @ 24     | 0.0288   | 0.0309   | 22.9807  | 0.9387   | 0.1938   |
+| 32 @ 11     | 0.0306   | 0.0310   | 22.9528  | 0.9382   | 0.1982   |
+| 32 @ 15     | 0.0301   | 0.0310   | 22.9653  | 0.9388   | 0.1968   |
+| 32 @ 17     | 0.0296   | 0.0309   | 22.9853  | 0.9384   | 0.1939   |
+| 32 @ 20     | 0.0288   | 0.0309   | 22.9793  | 0.9388   | 0.1963   |
+| 32 @ 24     | 0.0282   | 0.0310   | 22.9815  | 0.9398   | 0.1946   |
+
+This testing has shown that the changes made to a GroupNorm with grouping "16" preformed almost identically to the BatchNorm after more training. This is a twosided situation: The first side, the longer training suggest the model is learning more, meaning that the GroupNorm is learning deeper than the BatchNorm. The second side, the BatchNorm got similar results, much quicker, eight epochs faster, meaning that the model uses less time and energy to produce the similar results.
+
+From these findings, I will initally move forward with BatchNorm for testing, and adapat GroupNorm after finalize BatchNorm model is complete.
+
+Adding perceptual loss
+Changes: Changed sigmoid in U-Net to Tanh for better output matching for LPIPS, added perceptual loss to training and adapted ab values to use Tanh instead of sigmoid where needed.
+| Epoch #  | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
+| -------- | -------- | -------- | -------- | -------- | -------- |
+| 2        | 0.0858   | 0.0653   | 22.5883  | 0.9346   | 0.1945   |
+| 10       | 0.0782   | 0.0628   | 22.9586  | 0.9377   | 0.1821   |
+| 20       | 0.0662   | 0.0621   | 22.9943  | 0.9372   | 0.1793   |
 
 
 
