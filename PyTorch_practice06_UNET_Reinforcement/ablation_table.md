@@ -113,7 +113,7 @@ Testing U-Net using GroupNorm in place of BatchNorm
 | 16       | 0.0308   | 0.0310   | 22.9320  | 0.9383   | 0.1982   |
 | 32       | 0.0306   | 0.0310   | 22.9528  | 0.9382   | 0.1982   |
 
-Testing GroupNorm 8 and 16 for longer epochs
+Testing GroupNorm 16 and 32 for longer epochs
 - This test uses LR = 2e-4, BS = 128, seed = 42, epoch = 24
   
 | Num of groups | &darr; Training |  &darr; Testing  | &uarr; PSNR     | &uarr; SSIM     | &darr; LPIPS    |
@@ -145,4 +145,5 @@ Changes: Changed the sigmoid function in U-Net to Tanh for better output matchin
 
 Adding perceptual loss did not improve the model's performance. The pixel-level metrics did not improve much relatively, not to mention the increased loss in both training and testing. Overall, the model performed better before introducing perceptual loss.
 
-**After all testing, the best hyperparameters for the model were LR = 2e-4, BS = 128, and GroupNormalization using 8 groups, with the model performing best at epochs 16-18.**
+**After all testing, the best hyperparameters for the model were LR = 2e-4, BS = 128, cosine annealing learning rate scheduler, no peceptual loss, using batch normalization, with the model performing best at epochs 8-10.**
+
